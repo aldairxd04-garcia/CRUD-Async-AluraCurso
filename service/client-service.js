@@ -29,29 +29,50 @@
 //   return promise;
 // };
 
-  //FETCH API
-const listaClientes = () =>  fetch("http://localhost:3000/perfil").then((response) => response.json());
+//FETCH API
+const listaClientes = () =>
+  fetch("http://localhost:3000/perfil").then((response) => response.json());
 
-const agregarCliente = (nombre, email) => fetch("http://localhost:3000/perfil", {
-  method:"POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({nombre, email,id: uuid.v4()})
-});
+const agregarCliente = (nombre, email) =>
+  fetch("http://localhost:3000/perfil", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ nombre, email, id: uuid.v4() }),
+  });
 
-const editarCliente = () => {
-  fetch("http://localhost:3000/perfil",{
+const datosClientes = (id) => {
+  return fetch(`http://localhost:3000/perfil/${id}`)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+};
 
-  }).then(response => console.log(response) ).catch(error => console.log(error))
-}
+const editarCliente = (nombre, email, id) => {
+  return fetch(`http://localhost:3000/perfil/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nombre,
+      email,
+    }),
+  })
+    .then((response) => response)
+    .catch((error) => console.log(error));
+};
 
 const eliminarCliente = (id) => {
-  fetch(`http://localhost:3000/perfil/${id} `, {
-    method: "DELETE"
-  })
-}
+  return fetch(`http://localhost:3000/perfil/${id} `, {
+    method: "DELETE",
+  });
+};
 
 export {
-  listaClientes, agregarCliente, editarCliente, eliminarCliente
-}
+  listaClientes,
+  agregarCliente,
+  datosClientes,
+  editarCliente,
+  eliminarCliente,
+};
